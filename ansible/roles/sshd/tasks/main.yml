@@ -47,7 +47,7 @@
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^Port"
-    line: "Port {{ configured_port }}"
+    line: "Port {{ SSHD_PORT }}"
 
 - name: TEST TO SEE IF SELINUX IS RUNNING
     command: getenforce
@@ -56,7 +56,7 @@
 
 - name: SET UP SELINUX FOR ALTERNATIVE SSHD PORT
   seport:
-    ports: "{{ configured_port }}"
+    ports: "{{ SSHD_PORT }}"
     proto: tcp
     setype: ssh_port_t
     state: present
@@ -70,7 +70,7 @@
 # We're done, make sure ansible_port is set properly so that any tasks after this use the right ansible_port.
 - name: UPDATE ANSIBLE WITH NEW SSHD PORT
   set_fact:
-    ansible_port: "{{ configured_port }}"
+    ansible_port: "{{ SSHD_PORT }}"
 
 # Gather facts should be set to false when running this role since it will
 # fail if the Ansible SSH port is not set correctly.
