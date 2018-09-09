@@ -11,7 +11,7 @@
     proto: tcp
     setype: ssh_port_t
     state: present
-  when: '"Enabled" in ansible_selinux'
+  when: '"enabled" in ansible_selinux'
 
 # We notified "Restart sshd" if we modified the sshd config.
 # By calling flush_handlers, we make sure the handler is run *right now*
