@@ -1,11 +1,13 @@
 ---
 packages:
   - tree
+  - nano
   - git
   - ansible
   - ufw
   - fail2ban
   - python
   - python-pip
+  - python-netaddr
 
 pirl_mn_binary_url: "http://release.pirl.io/downloads/masternode/linux/pirl-linux-amd64"
