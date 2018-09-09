@@ -6,6 +6,13 @@
   become: yes
   when: ansible_os_family == "Debian" or ansible_os_family == "Ubuntu"
 
+- name: ADD EPEL REPO
+  yum:
+    name: epel-release
+    state: latest
+  become: yes
+  when: ansible_os_family == "CentOS" or ansible_os_family == "RedHat"
+
 - name: YUM UPGRADE
   yum:
     name: '*'
