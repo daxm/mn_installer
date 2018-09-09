@@ -19,7 +19,7 @@
     port: "{{ item }}"
   with_items:
     - 30303
-    - 22
+    - "{{ SSHD_PORT }}"
 
 - name: ENABLE UFW BUT DEFAULT DENY
   ufw:
