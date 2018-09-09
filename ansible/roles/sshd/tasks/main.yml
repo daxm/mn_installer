@@ -53,6 +53,7 @@
   command: getenforce
   register: sestatus
   changed_when: false
+  when: ansible_os_family == "CentOS" or ansible_os_family == "RedHat"
 
 - name: SET UP SELINUX FOR ALTERNATIVE SSHD PORT
   seport:
@@ -60,7 +61,7 @@
     proto: tcp
     setype: ssh_port_t
     state: present
-  when: '"Enabled" in sestatus.stdout'
+  when: "Enabled" in sestatus.stdout and ( ansible_os_family == "CentOS" or ansible_os_family == "RedHat")
 
 # We notified "Restart sshd" if we modified the sshd config.
 # By calling flush_handlers, we make sure the handler is run *right now*
