@@ -24,6 +24,10 @@
         state: present
         shell: /bin/bash
 
+    - name: CONFIGURE SSHD SERVICE
+      include_role:
+        name: sshd
+
     - name: HARDEN THE MACHINE
       include_role:
         name: ufw
