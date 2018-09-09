@@ -52,6 +52,7 @@
 - name: TEST TO SEE IF SELINUX IS RUNNING
   command: getenforce
   register: sestatus
+  ignore_errors: true
   changed_when: false
 
 - name: SET UP SELINUX FOR ALTERNATIVE SSHD PORT
