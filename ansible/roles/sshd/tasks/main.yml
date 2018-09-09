@@ -1,67 +1,17 @@
 ---
-# ansible_port can change throughout this role, keep a copy around
-- name: SAVE ANSIBLE CONFIGURE SSH PORT
-  set_fact:
-    configured_port: "{{ ansible_port }}"
-
-# From localhost, check if we're able to reach {{ inventory_hostname }} on port 22
-- name: TEST DEFAULT SSH PORT
-  wait_for:
-    port: 22
-    state: started
-    host: "{{ inventory_hostname }}"
-    connect_timeout: 5
-    timeout: 10
-  delegate_to: localhost
-  ignore_errors: yes
-  register: default_ssh
-
-# If reachable, continue the following tasks with this port
-- name: USE DEFAULT PORT IF ACCESSIBLE
-  set_fact:
-    ansible_port: 22
-  when: default_ssh is defined and default_ssh.state == "started"
-  register: ssh_port_set
-
-# If unreachable on port 22, check if we're able to reach {{ inventory_hostname }} on {{ ansible_port }} provided by
-#  the inventory from localhost
-- name: TEST IF ANSIBLE DEFAULT SSH PORT IS SAME AS CONFIGURED PORT FOR THIS HOST.
-  wait_for:
-    port: "{{ ansible_port }}"
-    state: started
-    host: "{{ inventory_hostname }}"
-    connect_timeout: 5
-    timeout: 10
-  delegate_to: localhost
-  ignore_errors: yes
-  register: configured_ssh
-  when: default_ssh is defined and default_ssh.state is undefined
-
-# If the SSH port is neither the default or the configured, give up.
-- name: SSH PORT IS UNKNOWN
-  fail:
-    msg: "The SSH port is neither 22 nor {{ ansible_port }}."
-  when: ssh_port_set is undefined
-
-- name: SET UP ALTERNATIVE SSH PORT
+- name: SET UP SSH PORT
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^Port"
     line: "Port {{ SSHD_PORT }}"
 
-- name: TEST TO SEE IF SELINUX IS RUNNING
-  command: getenforce
-  register: sestatus
-  ignore_errors: true
-  changed_when: false
-
-- name: SET UP SELINUX FOR ALTERNATIVE SSHD PORT
+- name: SET UP SELINUX FOR SSHD PORT
   seport:
     ports: "{{ SSHD_PORT }}"
     proto: tcp
     setype: ssh_port_t
     state: present
-  when: 'sestatus is defined and "Enabled" in sestatus.stdout'
+  when: '"Enabled" in ansible_selinux'
 
 # We notified "Restart sshd" if we modified the sshd config.
 # By calling flush_handlers, we make sure the handler is run *right now*
@@ -73,8 +23,6 @@
   set_fact:
     ansible_port: "{{ SSHD_PORT }}"
 
-# Gather facts should be set to false when running this role since it will
-# fail if the Ansible SSH port is not set correctly.
 # We run setup to gather facts here once the SSH port is set up.
 - name: REFRESH ANSIBLE FACTS
   setup:

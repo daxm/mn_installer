@@ -1,9 +1,13 @@
 ---
 - hosts: localhost
-  pre_tasks:
+  tasks:
     - name: INCLUDE USER SETTINGS
       include_vars:
         file: env.cfg
+
+    - name: VALIDATE SSH PORT AND UPDATE ANSIBLE ACCORDINGLY
+      inclue_role:
+        name: ssh_check
 
     - name: UPDATE OS AND INSTALL REQUIRED PACKAGES AND MODULES
       include_role:
@@ -17,13 +21,6 @@
         - 'public_ip_check'
         - 'token_masternode_check'
 
-  tasks:
-    - name: CONFIGURE USER FOR PIRL MASTERNODE SERVICE
-      user:
-        name: "{{RUNAS_USER}}"
-        state: present
-        shell: /bin/bash
-
     - name: CONFIGURE SSHD SERVICE
       include_role:
         name: sshd
@@ -31,6 +28,12 @@
     - name: HARDEN THE MACHINE
       include_role:
         name: ufw
+
+    - name: CONFIGURE USER FOR PIRL MASTERNODE SERVICE
+      user:
+        name: "{{RUNAS_USER}}"
+        state: present
+        shell: /bin/bash
 
     - name: PIRL MASTERNODE
       include_role:
