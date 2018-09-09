@@ -61,7 +61,7 @@
     proto: tcp
     setype: ssh_port_t
     state: present
-  when: 'sestatus is definded and "Enabled" in sestatus.stdout'
+  when: 'sestatus is defined and "Enabled" in sestatus.stdout'
 
 # We notified "Restart sshd" if we modified the sshd config.
 # By calling flush_handlers, we make sure the handler is run *right now*
