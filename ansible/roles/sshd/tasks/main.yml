@@ -5,13 +5,20 @@
     regexp: "^Port"
     line: "Port {{ SSHD_PORT }}"
 
+- name: INSTALL policycoreutils-python if on CentOS
+  yum:
+    name: policycoreutils-python
+    state: latest
+  become: yes
+  when: ansible_os_family == "CentOS" or ansible_os_family == "RedHat"
+
 - name: SET UP SELINUX FOR SSHD PORT
   seport:
     ports: "{{ SSHD_PORT }}"
     proto: tcp
     setype: ssh_port_t
     state: present
-  when: '"enabled" in ansible_selinux'
+  when: '"enabled" in ansible_selinux.status'
 
 # We notified "Restart sshd" if we modified the sshd config.
 # By calling flush_handlers, we make sure the handler is run *right now*
