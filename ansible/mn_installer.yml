@@ -6,7 +6,7 @@
         file: env.cfg
 
     - name: VALIDATE SSH PORT AND UPDATE ANSIBLE ACCORDINGLY
-      inclue_role:
+      include_role:
         name: ssh_check
 
     - name: UPDATE OS AND INSTALL REQUIRED PACKAGES AND MODULES
