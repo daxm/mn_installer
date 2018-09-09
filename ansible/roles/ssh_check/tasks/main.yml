@@ -1,9 +1,9 @@
 ---
-- name: SET ANSIBLE_PORT TO ENV CONFIGURED PORT
+- name: SET ANSIBLE_PORT VARIABLE
   set_fact:
     ansible_port: "{{ SSHD_PORT }}"
 
-- name: "CHECK ANSIBLE CONFIGURED PORT {{ ansible_port }}"
+- name: TRY TO SSH TO ANSIBLE_PORT CONFIGURED PORT
   wait_for:
     port: "{{ ansible_port }}"
     state: "started"
@@ -14,7 +14,7 @@
   ignore_errors: "yes"
   register: ssh_port
 
-- name: "CHECK IF SSH ANSWERS ON 22"
+- name: TRY TO SSH TO DEFAULT PORT 22
   wait_for:
     port: "22"
     state: "started"
@@ -28,7 +28,7 @@
     - ssh_port is defined
     - ssh_port.state is undefined
 
-- name: SET SSH PORT TO 22
+- name: SET ANSIBLE_PORT TO 22
   set_fact:
     ansible_port: "22"
   when: ssh_port_default.state is defined

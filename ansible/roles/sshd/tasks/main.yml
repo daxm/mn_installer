@@ -1,18 +1,18 @@
 ---
-- name: SET UP SSH PORT
+- name: SET SSH PORT FOR THIS MACHINE
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^Port"
     line: "Port {{ SSHD_PORT }}"
 
-- name: INSTALL policycoreutils-python if on CentOS
+- name: INSTALL policycoreutils-python IF ON CENTOS
   yum:
     name: policycoreutils-python
     state: latest
   become: yes
   when: ansible_os_family == "CentOS" or ansible_os_family == "RedHat"
 
-- name: SET UP SELINUX FOR SSHD PORT
+- name: CONFIGURE SELINUX FOR SSHD PORT
   seport:
     ports: "{{ SSHD_PORT }}"
     proto: tcp
