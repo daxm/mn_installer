@@ -11,3 +11,5 @@ packages:
   - python-netaddr
 
 pirl_mn_binary_url: "http://release.pirl.io/downloads/masternode/linux/pirl-linux-amd64"
+
+ansible_port: 22
