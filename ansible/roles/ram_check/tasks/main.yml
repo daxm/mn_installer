@@ -2,6 +2,7 @@
 - name: GET REAL RAM AMOUNT
   shell: grep MemTotal /proc/meminfo |  sed 's/[^0-9]*//g'
   register: total_ram
+  changed_when: false
 
 - name: OUTPUT RAM AMOUNT
   debug:
