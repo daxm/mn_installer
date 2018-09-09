@@ -1,6 +1,6 @@
 ---
 - SET ANSIBLE_PORT TO ENV.CFG CONFIGURED PORT
-  set_fact:
+  set_facts:
     ansible_port: "{{ SSHD_PORT }}"
 
 - name: "CHECK ANSIBLE CONFIGURED PORT {{ ansible_port }}"
