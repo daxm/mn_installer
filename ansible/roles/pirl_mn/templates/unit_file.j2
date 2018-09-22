@@ -1,5 +1,5 @@
 [Unit]
-Description=Pirl Content Master Node
+Description=Pirl Master Node
 
 [Service]
 EnvironmentFile=/etc/pirlnode-env
@@ -8,7 +8,7 @@ Type=simple
 User={{ RUNAS_USER }}
 Group={{ RUNAS_USER }}
 
-ExecStart=/usr/local/bin/pirl-content-linux-amd64
+ExecStart=/usr/local/bin/pirl-linux-amd64
 Restart=always
 
 [Install]
