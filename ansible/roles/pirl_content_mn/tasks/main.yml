@@ -16,6 +16,9 @@
     dest: /usr/local/bin/pirl-content-linux-amd64
     mode: 0755
 
+- name: INITIALIZE PIRL CONTENT MASTERNODE
+  shell: /usr/local/bin/pirl-content-linux-amd64 init
+
 - name: SET UP PIRLNODE-ENV FILE
   template:
     src: templates/pirlnode-env.j2
