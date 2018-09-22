@@ -1,0 +1,44 @@
+---
+- name: CHECK EXISTENCE OF PREVIOUS PIRL CONTENT MASTERNODE INSTALLATION
+  stat:
+    path: /etc/systemd/system/pirlnode-content.service
+  register: pirl_content_systemd_file
+
+- name: STOP EXISTING PIRL CONTENT MASTERNODE
+  systemd:
+    name: pirlnode_content.service
+    state: stopped
+  when: pirl_content_systemd_file.stat.exists == True
+
+- name: DOWNLOAD PIRL CONTENT MASTERNODE BINARY
+  get_url:
+    url: "{{pirl_content_mn_binary_url}}"
+    dest: /usr/local/bin/pirl-content-linux-amd64
+    mode: 0755
+
+- name: SET UP PIRLNODE-ENV FILE
+  template:
+    src: templates/pirlnode-env.j2
+    dest: /etc/pirlnode-env
+    owner: "{{ RUNAS_USER }}"
+    group: "{{ RUNAS_USER }}"
+    mode: 0644
+
+- name: CONFIGURE SYSTEMD FOR PIRL CONTENT MN BINARY
+  template:
+    src: templates/unit_file.j2
+    dest: /etc/systemd/system/pirlnode-content.service
+    owner: "{{ RUNAS_USER }}"
+    group: "{{ RUNAS_USER }}"
+    mode: 0755
+
+- name: RELOAD SYSTEMD
+  systemd:
+    daemon_reload: yes
+
+- name: ENABLE AND START THE PIRLNODE SERVICE
+  systemd:
+    name: pirlnode-content.service
+    state: started
+    enabled: yes
+

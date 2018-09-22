@@ -10,6 +10,8 @@ packages:
   - python-pip
   - python-netaddr
 
-pirl_mn_binary_url: "http://release.pirl.io/downloads/masternode/linux/pirl-linux-amd64"
+old-pirl_mn_binary_url: "http://release.pirl.io/downloads/masternode/linux/pirl-linux-amd64"
+pirl_mn_binary_url: "https://storage.gra1.cloud.ovh.net/v1/AUTH_8f059abdcba74107a430604cf1c257bb/masternodes/premium/pirl-premium-v4-beta"
+pirl_content_mn_binary_url: "https://storage.gra1.cloud.ovh.net/v1/AUTH_8f059abdcba74107a430604cf1c257bb/masternodes/marlin/marlin"
 
 ansible_port: 22

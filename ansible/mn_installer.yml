@@ -38,3 +38,7 @@
     - name: PIRL MASTERNODE
       include_role:
         name: pirl_mn
+
+    - name: PIRL CONTENT MASTERNODE
+      include_role:
+        name: pirl_content_mn
