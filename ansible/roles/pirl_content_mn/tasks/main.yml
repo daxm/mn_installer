@@ -6,7 +6,7 @@
 
 - name: STOP EXISTING PIRL CONTENT MASTERNODE
   systemd:
-    name: pirlnode_content.service
+    name: pirlnode-content.service
     state: stopped
   when: pirl_content_systemd_file.stat.exists == True
 
