@@ -18,6 +18,7 @@
 
 - name: INITIALIZE PIRL CONTENT MASTERNODE
   shell: /usr/local/bin/pirl-content-linux-amd64 init
+  ignore_errors: yes
 
 - name: SET UP PIRLNODE-ENV FILE
   template:
