@@ -1,5 +1,6 @@
 [Unit]
 Description=Pirl Master Node
+Requires: pirlnode.service
 
 [Service]
 EnvironmentFile=/etc/pirlnode-env
@@ -10,6 +11,3 @@ Group={{ RUNAS_USER }}
 
 ExecStart=/usr/local/bin/pirl-linux-amd64 --rpc
 Restart=always
-
-[Install]
-WantedBy=default.target
